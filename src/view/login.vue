@@ -31,6 +31,7 @@
 
 <script>
 import Swal from "sweetalert2";
+import axiosInstance from "../axios";
 
 export default {
   data() {
@@ -41,24 +42,32 @@ export default {
     };
   },
   methods: {
-    handleLogin() {
-      const hardcodedEmail = "rofiqi@gmail.com";
-      const hardcodedPassword = "1q2w3e4r5t";
+    async handleLogin() {
+      try {
+        const response = await axiosInstance.post("/users/login", {
+          email: this.email,
+          password: this.password,
+        });
 
-      if (this.email === hardcodedEmail && this.password === hardcodedPassword) {
-        // SweetAlert2 success message
+        const { token } = response.data;
+        if (this.keepLoggedIn) {
+          localStorage.setItem("authToken", token);
+        } else {
+          sessionStorage.setItem("authToken", token);
+        }
+
         Swal.fire({
           title: "Login Successful!",
-          text: "Welcome back!",
+          text: `Welcome back, ${response.data.username}!`,
           icon: "success",
-          confirmButtonText: "Okee",
+          confirmButtonText: "OK",
         }).then(() => {
           this.$router.push({ name: "dashboard" });
         });
-      } else {
+      } catch (error) {
         Swal.fire({
           title: "Login Failed",
-          text: "Please check your credentials.",
+          text: error.response?.data?.message || "Invalid email or password!",
           icon: "error",
           confirmButtonText: "OK",
         });

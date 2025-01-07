@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center h-lvh bg-gray-100 px-20">
-    <img src="../assets/register.png" alt="register" class="w-1/2" data-aos="fade-right" data-aos-delay="50"/>
+    <img src="../assets/register.png" alt="register" class="w-1/2" data-aos="fade-right" data-aos-delay="50" />
     <form @submit.prevent="handleRegister" class="flex flex-col items-start px-10 py-16 w-1/2 text-gray-900">
       <h1 class="text-5xl font-semibold mb-5" data-aos="fade-left" data-aos-delay="50">ARTANUSA</h1>
 
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-// Import SweetAlert2
 import Swal from "sweetalert2";
+import axiosInstance from "../axios";
 
 export default {
   data() {
@@ -54,46 +54,51 @@ export default {
     };
   },
   methods: {
-    handleRegister() {
-      const hardcodedEmail = "user@example.com";
-      const hardcodedPassword = "password123";
+    async handleRegister() {
+      if (this.password !== this.confirmPassword) {
+        Swal.fire({
+          title: "Error!",
+          text: "Passwords do not match!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
 
-      // Check if the email and password match the hardcoded values
-      if (this.email === hardcodedEmail && this.password === hardcodedPassword) {
-        // SweetAlert2 success message
+      if (!this.agreeToTerms) {
+        Swal.fire({
+          title: "Error!",
+          text: "You must agree to the privacy policy!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+
+      try {
+        const response = await axiosInstance.post("/users/register", {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          confirmPassword: this.confirmPassword,
+          agreeToTerms: this.agreeToTerms
+        });
+
         Swal.fire({
           title: "Success!",
-          text: "Registration successful!",
+          text: response.data.message,
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
-          // Redirect to the login page after successful registration
           this.$router.push({ name: "login" });
         });
-      } else {
-        // Check if passwords match
-        if (this.password !== this.confirmPassword) {
-          Swal.fire({
-            title: "Error!",
-            text: "Passwords do not match!",
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-        } else if (!this.agreeToTerms) {
-          Swal.fire({
-            title: "Error!",
-            text: "You must agree to the privacy policy!",
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-        } else {
-          Swal.fire({
-            title: "Error!",
-            text: "Registration failed. Please check your details.",
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: error.response?.data?.message || "Registration failed!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     },
   },
