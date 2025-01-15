@@ -1,40 +1,40 @@
 <template>
-  <div class="flex justify-center items-center h-lvh bg-gray-100 px-20">
-    <img src="../assets/register.png" alt="register" class="w-1/2" data-aos="fade-right" data-aos-delay="50" />
-    <form @submit.prevent="handleRegister" class="flex flex-col items-start px-10 py-16 w-1/2 text-gray-900">
-      <h1 class="text-5xl font-semibold mb-5" data-aos="fade-left" data-aos-delay="50">ARTANUSA</h1>
+  <div class="flex flex-col lg:flex-row justify-center items-center h-screen bg-gray-100 px-6 lg:px-20">
+    <img src="../assets/register.png" alt="register" class="w-full lg:w-1/2 mb-6 lg:mb-0 lg:mr-10" />
+    <form @submit.prevent="handleRegister" class="flex flex-col items-start px-6 py-8 lg:px-10 lg:py-16 w-full lg:w-1/2 bg-white rounded-lg shadow-md">
+      <h1 class="text-3xl lg:text-5xl font-semibold mb-5">ARTANUSA</h1>
 
-      <label for="username" class="mt-2 w-full" data-aos="fade-left" data-aos-delay="100">
+      <label for="username" class="mt-2 w-full">
         <p class="text-lg">Username</p>
-        <input type="text" v-model="username" placeholder="username..." class="border-[1px] rounded-md border-gray-900 px-3 py-2 w-1/2" required />
+        <input type="text" v-model="username" placeholder="username..." class="border-[1px] rounded-md border-gray-500 px-3 py-2 w-full" required />
       </label>
 
-      <label for="email" class="mt-2 w-full" data-aos="fade-left" data-aos-delay="150">
+      <label for="email" class="mt-2 w-full">
         <p class="text-lg">Email</p>
-        <input type="email" v-model="email" placeholder="Email..." class="border-[1px] rounded-md border-gray-900 px-3 py-2 w-1/2" required />
+        <input type="email" v-model="email" placeholder="Email..." class="border-[1px] rounded-md border-gray-500 px-3 py-2 w-full" required />
       </label>
 
-      <label for="password" class="mt-2 w-full" data-aos="fade-left" data-aos-delay="200">
+      <label for="password" class="mt-2 w-full">
         <p class="text-lg">Password</p>
-        <input type="password" v-model="password" placeholder="Password..." class="border-[1px] rounded-md border-gray-900 px-3 py-2 w-1/2" required />
+        <input type="password" v-model="password" placeholder="Password..." class="border-[1px] rounded-md border-gray-500 px-3 py-2 w-full" required />
       </label>
 
-      <label for="confirmPassword" class="mt-2 w-full" data-aos="fade-left" data-aos-delay="250">
+      <label for="confirmPassword" class="mt-2 w-full">
         <p class="text-lg">Confirmasi Password</p>
-        <input type="password" v-model="confirmPassword" placeholder="Confirmasi Password..." class="border-[1px] rounded-md border-gray-900 px-3 py-2 w-1/2" required />
+        <input type="password" v-model="confirmPassword" placeholder="Confirmasi Password..." class="border-[1px] rounded-md border-gray-500 px-3 py-2 w-full" required />
       </label>
 
-      <label for="checkbox" class="flex justify-center gap-2" data-aos="fade-left" data-aos-delay="300">
+      <label for="checkbox" class="flex items-center gap-2 mt-4">
         <input type="checkbox" v-model="agreeToTerms" />
         <p class="text-sm">Saya setuju dengan kebijakan privasi</p>
       </label>
 
-      <div class="flex gap-2" data-aos="fade-left" data-aos-delay="350">
-        <button type="submit" class="bg-primary text-gray-100 px-12 py-3 rounded-md mt-5">Register</button>
-        <router-link :to="{ name: 'homepage' }" class="border-[1px] border-primary bg-gray-100 text-primary px-12 py-3 rounded-md mt-5">Back</router-link>
+      <div class="flex lg:flex-row gap-3 mt-5">
+        <button type="submit" class="bg-primary text-gray-100 px-8 py-3 rounded-md w-full lg:w-auto hover:opacity-75">Register</button>
+        <router-link :to="{ name: 'homepage' }" class="border-[1px] border-primary bg-gray-100 text-primary px-8 py-3 rounded-md w-full lg:w-auto hover:opacity-75"> Back </router-link>
       </div>
 
-      <router-link to="/login" class="text-sm italic" data-aos="fade-left" data-aos-delay="400">Sudah punya akun? Langsung masuk aja</router-link>
+      <router-link to="/login" class="text-sm italic mt-5"> Sudah punya akun? Langsung masuk aja </router-link>
     </form>
   </div>
 </template>
@@ -81,7 +81,7 @@ export default {
           email: this.email,
           password: this.password,
           confirmPassword: this.confirmPassword,
-          agreeToTerms: this.agreeToTerms
+          agreeToTerms: this.agreeToTerms,
         });
 
         Swal.fire({
@@ -106,5 +106,5 @@ export default {
 </script>
 
 <style scoped>
-/* Add any necessary styles here */
+/* Tambahkan gaya tambahan jika diperlukan */
 </style>

@@ -30,7 +30,6 @@
       </div>
     </div>
 
-    <!-- Detail Event Modal -->
     <div v-if="selectedEvent" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
       <div class="bg-white p-6 rounded-lg shadow-lg w-96">
         <h3 class="text-xl font-bold">{{ selectedEvent.title }}</h3>
@@ -106,7 +105,6 @@ export default {
     },
     showEventDetails(cell) {
       if (cell.events.length > 0) {
-        // Assuming first event is the one to show (can be modified to show multiple events)
         this.selectedEvent = cell.events[0];
       }
     },

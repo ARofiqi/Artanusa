@@ -34,7 +34,29 @@
           />
         </svg>
       </button>
-      <img src="../assets/profile-girl.png" alt="profile-girl" class="w-10 h-10">
+      <button id="profile" @click="showLogout = !showLogout">
+        <img src="../assets/profile-girl.png" alt="profile-girl" class="w-10 h-10" />
+        <div v-if="showLogout" class="absolute bg-gray-100 text-primary p-3 shadow-lg rounded right-10">
+          <button @click="logout">Logout</button>
+        </div>
+      </button>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showLogout: false,
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("authToken");
+      sessionStorage.removeItem("authToken");
+      this.$router.push({ name: "login" });
+    },
+  },
+};
+</script>

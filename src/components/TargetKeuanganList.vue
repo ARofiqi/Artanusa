@@ -1,11 +1,9 @@
 <template>
   <div>
-    <!-- Jika target keuangan kosong -->
-    <div v-if="targetKeuangan.length === 0" class="text-center text-gray-600">
+    <div v-if="targetKeuangan.length === 0" class="text-center text-gray-600 py-32">
       <p>Tidak ada target keuangan yang tersedia.</p>
     </div>
 
-    <!-- Jika target keuangan ada -->
     <div v-else>
       <ul class="grid gap-3 grid-cols-3">
         <li v-for="(target, index) in targetKeuangan" :key="index" class="bg-white p-6 shadow-md rounded-lg h-fit">
@@ -14,7 +12,7 @@
             <button @click="$emit('hapus-target', index)" class="text-white font-medium rounded-md transition">❌</button>
           </div>
           <h3 class="text-xl font-bold">{{ target.namaTarget }}</h3>
-          <p class="mt-2 text-gray-600">Jumlah Target: Rp{{ target.jumlahTarget.toLocaleString() }} / {{ target.waktu }} bulan</p>
+          <p class="mt-2 text-gray-600">Jumlah Target: Rp{{ target.jumlahTarget?.toLocaleString() || 0 }} / {{ target.waktu || 0 }} bulan</p>
 
           <div class="mt-4">
             <label class="block text-sm font-medium text-gray-700">Progress:</label>
@@ -47,10 +45,10 @@
                 'text-red-500': target.tabunganSekarang < target.tabunganPrev,
               }"
             >
-              Tabungan yang Sudah Disiapkan: Rp{{ target.tabunganSekarang.toLocaleString() }}
+              Tabungan yang Sudah Disiapkan: Rp{{ target.tabunganSekarang?.toLocaleString() || 0 }}
             </p>
-            <p class="mt-2 text-gray-900">Tabungan Per Bulan: Rp{{ target.tabunganPerBulan.toLocaleString() }}</p>
-            <p class="mt-2 text-gray-900">Sisa yang Perlu Ditabung: Rp{{ (target.jumlahTarget - target.tabunganSekarang).toLocaleString() }}</p>
+            <p class="mt-2 text-gray-900">Tabungan Per Bulan: Rp{{ target.tabunganPerBulan?.toLocaleString() || 0 }}</p>
+            <p class="mt-2 text-gray-900">Sisa yang Perlu Ditabung: Rp{{ ((target.jumlahTarget || 0) - (target.tabunganSekarang || 0)).toLocaleString() }}</p>
             <p class="mt-1 text-gray-900">
               Status:
               <span :class="target.selesai ? 'text-green-500 font-semibold' : 'text-red-500'">
@@ -68,9 +66,6 @@
           </div>
         </li>
       </ul>
-      <div class="flex justify-end py-5">
-        <button class="text-primary">Lihat Lainnya...</button>
-      </div>
     </div>
   </div>
 </template>
@@ -81,6 +76,14 @@ export default {
     targetKeuangan: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    showDetails(index) {
+      this.$set(this.targetKeuangan, index, {
+        ...this.targetKeuangan[index],
+        showDetails: !this.targetKeuangan[index].showDetails,
+      });
     },
   },
 };
